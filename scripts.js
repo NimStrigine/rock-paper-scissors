@@ -1,3 +1,8 @@
+let choices = document.querySelectorAll("button");
+let msg = document.querySelector("#result");
+let total = document.querySelector("#total");
+let totalWins = 0;
+
 function computerSelection() {
     let compChoice;
     let randomNum = Math.floor(Math.random() * 3);
@@ -43,12 +48,12 @@ function compareSelections(playerChoice, compChoice) {
     }
 }
 
-function playRound() {
-    let playerChoice;
+function playRound(playerChoice) {
+    // let playerChoice;
     let compChoice;
     let result;
     let message;
-    playerChoice = playerSelection();
+    // playerChoice = playerSelection();
     compChoice = computerSelection();
     result = compareSelections(playerChoice, compChoice);
     message = `You chose ${playerChoice}. The computer chose ${compChoice}. `;
@@ -56,6 +61,7 @@ function playRound() {
         message += "It was a tie!";
     } else if (result === 1) {
         message += "You won!";
+        totalWins += 1;
     } else if (result === -1) {
         message += "You lost.";
     } else {
@@ -65,16 +71,21 @@ function playRound() {
     return message;
 }
 
-function game() {
-    let totalWins = 0;
-    console.log("Let\'s play Rock Paper Scissors.");
-    for (let i = 1; i < 6; i++) {
-        let gameResult;
-        gameResult = playRound();
-        console.log(gameResult);
-        if (gameResult.includes("won")) {
-            totalWins++
+
+for (let choice of Array.from(choices)) {
+    choice.addEventListener("click", event => {
+        msg.textContent = playRound(choice.id);
+        if (totalWins < 5) {
+            total.textContent = `Rounds won: ${totalWins}`;
+        } else if (totalWins >= 5) {
+            total.textContent = "You win the game!"
         }
-        console.log(`You have won ${totalWins} of ${i} games`);
-    }
+    });
 }
+
+
+// function game() {
+//     let totalWins = 0;
+//     console.log("Let\'s play Rock Paper Scissors.");
+
+// }
